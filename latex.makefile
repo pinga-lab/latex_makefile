@@ -1,16 +1,17 @@
 ### Latex.Make
 # Author: Jason Hiebel
 
-# This is a simple makefile for compiling LaTeX documents. The core assumption
-# is that the resulting documents should have any parameters effecting
-# rendering quality set to theoretical limits and that all fonts should be
-# embedded. While typically overkill, the detriment to doing so is negligible.
+# This is a simple makefile for compiling LaTeX documents.
 
 # Targets:
 #    default : compiles the document in to three formats (DVI -> PS -> PDF)
 #    display : displays the compiled document in a common PDF viewer.
 #              (Linux = Evince, OSX = OS Set Default)
 #    clean   : removes the obj/ directory holding temporary files
+
+
+# Set PROJECT to the name of the .tex file to build.
+PROJECT = 
 
 default: obj/$(PROJECT).pdf
 
@@ -19,8 +20,6 @@ display: default
 
 ### Compilation Flags
 LATEX_FLAGS  = -halt-on-error -quiet -output-directory obj/
-DVIPS_FLAGS  = -q -Ppdf -G0 -tletter -updftex.map
-PS2PDF_FLAGS = -r1800 -dPDFSettings=/printer -dCompatibilityLevel=1.4 -dMaxSubsetPct=0 -dSubsetFonts-false -dEmbedAllFonts=true -sPAPERSIZE=letter
 
 TEXMFOUTPUT = obj/
 
@@ -62,7 +61,7 @@ clean::
 # Example: latex, bibtex, latex, latex
 #
 # Note the use of order-only prerequisites (prerequisites following the |).
-# Order-only prerequisites do not effect the target -- if the order-only
+# Order-only prerequisites do not affect the target -- if the order-only
 # prerequisite has changed and none of the normal prerequisites have changed
 # then this target IS NOT run.
 
@@ -70,24 +69,13 @@ obj/:
 	mkdir -p obj/
 
 obj/$(PROJECT).aux: $(TEX_FILES) $(STY_FILES) $(CLS_FILES) $(EPS_FILES) | obj/
-	latex $(LATEX_FLAGS) $(PROJECT)
-	
+	pdflatex $(LATEX_FLAGS) $(PROJECT)
+
 obj/$(PROJECT).bbl: $(BIB_FILES) $(BST_FILES) | obj/$(PROJECT).aux
 ifneq ($(BIB_FILES),)
 	bibtex obj/$(PROJECT)
-	latex $(LATEX_FLAGS) $(PROJECT)
+	pdflatex $(LATEX_FLAGS) $(PROJECT)
 endif
 	
-obj/$(PROJECT).dvi: obj/$(PROJECT).aux obj/$(PROJECT).bbl
-	latex $(LATEX_FLAGS) $(PROJECT)
-
-
-### Conversion
-# Convert the DVI file generated above in to a postscript and PDF file format.
-# Its assumed that the final product is to be a PDF.
-
-obj/$(PROJECT).ps : obj/$(PROJECT).dvi
-	dvips $(DVIPS_FLAGS) obj/$(PROJECT).dvi -o obj/$(PROJECT).ps
-	
-obj/$(PROJECT).pdf: obj/$(PROJECT).ps
-	ps2pdf14 $(PS2PDF_FLAGS) obj/$(PROJECT).ps obj/$(PROJECT).pdf
+obj/$(PROJECT).pdf: obj/$(PROJECT).aux obj/$(PROJECT).bbl
+	pdflatex $(LATEX_FLAGS) $(PROJECT)
