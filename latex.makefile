@@ -73,7 +73,8 @@ obj/$(PROJECT).aux: $(TEX_FILES) $(STY_FILES) $(CLS_FILES) $(EPS_FILES) | obj/
 
 obj/$(PROJECT).bbl: $(BIB_FILES) $(BST_FILES) | obj/$(PROJECT).aux
 ifneq ($(BIB_FILES),)
-	bibtex obj/$(PROJECT)
+	cp *.bib obj
+	( cd obj && bibtex $(PROJECT) )
 	pdflatex $(LATEX_FLAGS) $(PROJECT)
 endif
 	
