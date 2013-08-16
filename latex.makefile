@@ -18,6 +18,9 @@ default: obj/$(PROJECT).pdf
 display: default
 	(${PDFVIEWER} obj/$(PROJECT).pdf &)
 
+lpr: default
+	lpr obj/$(PROJECT).pdf &
+
 ### Compilation Flags
 LATEX_FLAGS  = -halt-on-error -quiet -output-directory obj/
 
