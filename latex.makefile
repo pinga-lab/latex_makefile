@@ -38,7 +38,7 @@ EPS_FILES = $(shell find . -name '*.eps')
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
-PDFVIEWER = evince
+PDFVIEWER = okular
 endif
 ifeq ($(UNAME), Darwin)
 PDFVIEWER = open
