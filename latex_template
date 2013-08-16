@@ -9,6 +9,7 @@
 % \usepackage{showkeys}
 % \usepackage{endfloat}
 % \usepackage{url}
+\usepackage[version=3]{mhchem}
 
 % Document metadata
 % =================
