@@ -11,7 +11,7 @@
 
 
 # Set PROJECT to the name of the .tex file to build.
-PROJECT = 
+PROJECT = main.tex
 
 default: obj/$(PROJECT).pdf
 
