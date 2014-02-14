@@ -22,7 +22,9 @@ lpr: default
 	lpr obj/$(PROJECT).pdf &
 
 wc: default
-	pdftotext obj/$(PROJECT).pdf - | wc -w
+	@ echo "Word count:"
+	@ pdftotext obj/$(PROJECT).pdf - | wc -w
+	@ echo "\r"
 
 ### Compilation Flags
 LATEX_FLAGS  = -halt-on-error -quiet -output-directory obj/
