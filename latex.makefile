@@ -21,6 +21,9 @@ display: default
 lpr: default
 	lpr obj/$(PROJECT).pdf &
 
+wc: default
+	pdftotext obj/$(PROJECT).pdf - | wc -w
+
 ### Compilation Flags
 LATEX_FLAGS  = -halt-on-error -quiet -output-directory obj/
 
