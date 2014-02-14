@@ -1,5 +1,7 @@
 ### Latex.Make
 # Author: Jason Hiebel
+# This version of this file was taken from the repo found at 
+# http://github.com/jrsmith3/latex_template
 
 # This is a simple makefile for compiling LaTeX documents.
 
